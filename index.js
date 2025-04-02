@@ -2033,4 +2033,139 @@ class GlTexture {
     }
 }
 
-export { AlCam2, BrowserFile, Canvas, CssColor, CssResset, DisplayForest, Div, DragAndDropMng, DragListener, ElemState, ElemStatePool, FileType, FloatList, FloatListBuffer, Font, GlBuffer, GlBufferTarget, GlBufferUsage, GlCtx, GlProgram, GlShaderKind, GlTexture, GlTextureFormat, GlTextureInternalFormat, GlTextureTarget, GlUniform, HIState, Image$1 as Image, Input, InputState, InputStatePool, KeyState, KeyboardState, MagFilter, MinFilter, MouseButton, MouseState, NodeFile, Par, PressHistory, Style, UiAlRect, VertexPointerKind, canvas, div, get_webgl_context, image, input, par, to_style };
+const VERTEX_SRC$1 = `
+attribute vec4 a_pos;
+attribute vec4 a_color;
+
+uniform vec4 u_camera;
+
+varying vec4 v_color;
+
+void main() {
+
+    vec2 camera_corrected_pos = (a_pos.xy - u_camera.xy) / (0.5 * u_camera.zw);
+
+    gl_Position = vec4(camera_corrected_pos, a_pos.z, a_pos.w);
+
+    v_color = a_color;
+
+}
+`;
+const FRAGMENT_SRC$1 = `
+precision highp float;
+
+varying vec4 v_color;
+
+void main() {
+    gl_FragColor = v_color;
+}
+`;
+class GeomRenderer {
+    constructor(gl) {
+        this.gl = gl;
+        let buffer = new GlBuffer(gl, GlBufferTarget.BUFFER, GlBufferUsage.DYNAMIC_DRAW);
+        buffer.bind();
+        let program = new GlProgram(gl, VERTEX_SRC$1, FRAGMENT_SRC$1, [
+            { name: "a_pos", kind: VertexPointerKind.FLOAT, components: 4 },
+            { name: "a_color", kind: VertexPointerKind.FLOAT, components: 4 },
+        ], ["u_camera",]);
+        buffer.unbind();
+        this.program = program;
+        this.buffer = buffer;
+        this.n_vertices = 0;
+    }
+    drop() {
+        this.program.drop();
+        this.buffer.drop();
+    }
+    bind() {
+        this.buffer.bind();
+        this.program.bind();
+    }
+    unbind() {
+        this.buffer.unbind();
+        this.program.unbind();
+    }
+    set_camera(al_cam) {
+        this.program
+            .get_uniform_mut("u_camera")
+            .data_4f(al_cam);
+    }
+    draw(buffer) {
+        this.buffer.send_to_gl_float32array(buffer);
+        this.gl.drawArrays(this.gl.TRIANGLES, 0, buffer.length / 8);
+    }
+}
+
+const VERTEX_SRC = `
+uniform vec4 u_camera; 
+
+attribute vec4 a_pos;
+attribute vec4 a_color;
+attribute vec2 a_tex;
+
+varying vec4 v_color;
+varying vec2 v_tex;
+
+void main() {
+
+    vec2 camera_corrected_pos = (a_pos.xy - u_camera.xy) / (0.5 * u_camera.zw);
+
+    gl_Position = vec4(camera_corrected_pos, a_pos.z, a_pos.w);
+
+    v_color = a_color;
+    v_tex = a_tex;
+
+}
+`;
+const FRAGMENT_SRC = `
+precision highp float;
+
+uniform sampler2D u_sampler;
+
+varying vec4 v_color;
+varying vec2 v_tex;
+
+void main() {
+    vec4 tex_color = texture2D(u_sampler, v_tex);
+    gl_FragColor = v_color * tex_color;
+}
+`;
+class TexRenderer {
+    constructor(gl) {
+        this.gl = gl;
+        let buffer = new GlBuffer(gl, GlBufferTarget.BUFFER, GlBufferUsage.DYNAMIC_DRAW);
+        buffer.bind();
+        let program = new GlProgram(gl, VERTEX_SRC, FRAGMENT_SRC, [
+            { name: "a_pos", kind: VertexPointerKind.FLOAT, components: 4 },
+            { name: "a_color", kind: VertexPointerKind.FLOAT, components: 4 },
+            { name: "a_tex", kind: VertexPointerKind.FLOAT, components: 2 },
+        ], ["u_camera",]);
+        buffer.unbind();
+        this.program = program;
+        this.buffer = buffer;
+    }
+    drop() {
+        this.program.drop();
+        this.buffer.drop();
+    }
+    bind() {
+        this.buffer.bind();
+        this.program.bind();
+    }
+    unbind() {
+        this.buffer.unbind();
+        this.program.unbind();
+    }
+    set_camera(al_cam) {
+        this.program
+            .get_uniform_mut("u_camera")
+            .data_4f(al_cam);
+    }
+    draw(buffer) {
+        this.buffer.send_to_gl_float32array(buffer);
+        this.gl.drawArrays(this.gl.TRIANGLES, 0, buffer.length / 10);
+    }
+}
+
+export { AlCam2, BrowserFile, Canvas, CssColor, CssResset, DisplayForest, Div, DragAndDropMng, DragListener, ElemState, ElemStatePool, FileType, FloatList, FloatListBuffer, Font, GeomRenderer, GlBuffer, GlBufferTarget, GlBufferUsage, GlCtx, GlProgram, GlShaderKind, GlTexture, GlTextureFormat, GlTextureInternalFormat, GlTextureTarget, GlUniform, HIState, Image$1 as Image, Input, InputState, InputStatePool, KeyState, KeyboardState, MagFilter, MinFilter, MouseButton, MouseState, NodeFile, Par, PressHistory, Style, TexRenderer, UiAlRect, VertexPointerKind, canvas, div, get_webgl_context, image, input, par, to_style };

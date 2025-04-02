@@ -1230,4 +1230,29 @@ declare namespace GlTextureInternalFormat {
     function gl_enum(gl: GL, internal_format: GlTextureInternalFormat): 6408 | 6407 | 6410 | 6409 | 6406;
 }
 
-export { AlCam2, type AlignItems, type BorderStyle, BrowserFile, Canvas, CssColor, CssResset, type Display, DisplayForest, type DisplayForestItem, Div, DragAndDropMng, DragListener, ElemState, ElemStatePool, FileType, type FlexDirection, type FlexWrap, FloatList, FloatListBuffer, Font, type GL, GlBuffer, GlBufferTarget, GlBufferUsage, GlCtx, GlProgram, GlShaderKind, GlTexture, GlTextureFormat, GlTextureInternalFormat, GlTextureTarget, GlUniform, HIState, Image, Input, InputState, InputStatePool, type JustifyContent, type KeyCode, KeyState, KeyboardState, MagFilter, MinFilter, MouseButton, MouseState, NodeFile, type NodeInterface, type ObjectFit, Par, type Position, PressHistory, Style, type StyleObj, UiAlRect, type VertexPointer, VertexPointerKind, type WritingMode, canvas, div, get_webgl_context, image, input, par, to_style };
+declare class GeomRenderer {
+    gl: GL;
+    program: GlProgram;
+    buffer: GlBuffer;
+    n_vertices: number;
+    constructor(gl: GL);
+    drop(): void;
+    bind(): void;
+    unbind(): void;
+    set_camera(al_cam: Vec4): void;
+    draw(buffer: Float32Array): void;
+}
+
+declare class TexRenderer {
+    gl: GL;
+    program: GlProgram;
+    buffer: GlBuffer;
+    constructor(gl: GL);
+    drop(): void;
+    bind(): void;
+    unbind(): void;
+    set_camera(al_cam: Vec4): void;
+    draw(buffer: Float32Array): void;
+}
+
+export { AlCam2, type AlignItems, type BorderStyle, BrowserFile, Canvas, CssColor, CssResset, type Display, DisplayForest, type DisplayForestItem, Div, DragAndDropMng, DragListener, ElemState, ElemStatePool, FileType, type FlexDirection, type FlexWrap, FloatList, FloatListBuffer, Font, type GL, GeomRenderer, GlBuffer, GlBufferTarget, GlBufferUsage, GlCtx, GlProgram, GlShaderKind, GlTexture, GlTextureFormat, GlTextureInternalFormat, GlTextureTarget, GlUniform, HIState, Image, Input, InputState, InputStatePool, type JustifyContent, type KeyCode, KeyState, KeyboardState, MagFilter, MinFilter, MouseButton, MouseState, NodeFile, type NodeInterface, type ObjectFit, Par, type Position, PressHistory, Style, type StyleObj, TexRenderer, UiAlRect, type VertexPointer, VertexPointerKind, type WritingMode, canvas, div, get_webgl_context, image, input, par, to_style };
