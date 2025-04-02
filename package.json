@@ -1,0 +1,9 @@
+{
+  "name": "ts_browser",
+  "version": "1.0.0",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "dependencies": {
+    "ts_core": "github:murilosoaresp/ts_core_dist"
+  }
+}
