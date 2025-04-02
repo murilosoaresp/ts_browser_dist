@@ -824,7 +824,7 @@ class UiAlRect {
         this.width = width;
         this.height = height;
     }
-    static dft() {
+    static unit() {
         return new UiAlRect(Vec2.zero(), 1.0, 1.0);
     }
     copy() {
@@ -979,7 +979,7 @@ class NodeFile {
         this.path = path;
     }
     exists_async() {
-        return __awaiter$1(this, undefined, undefined, function* () {
+        return __awaiter$1(this, void 0, void 0, function* () {
             // return await G.node_interface().file_exists_async(this.path)
             throw new Error();
         });
@@ -1041,7 +1041,7 @@ FileType.tags = {
         return output;
     }
     FileType.list_all = list_all;
-})(FileType);
+})(FileType || (FileType = {}));
 
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -1057,7 +1057,7 @@ class BrowserFile {
         this.file = file;
     }
     static file_dialog_async(opt) {
-        return __awaiter(this, undefined, undefined, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return new Promise((res, rej) => {
                 const input = document.createElement("input");
                 input.type = "file";
@@ -1105,7 +1105,7 @@ class BrowserFile {
         }
     }
     buffer_async() {
-        return __awaiter(this, undefined, undefined, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return new Promise((res, rej) => {
                 const reader = new FileReader();
                 reader.onload = () => res(reader.result);
@@ -1121,8 +1121,8 @@ class AlCam2 {
         this.window = window;
         this.rect = rect;
     }
-    static dft() {
-        return new AlCam2(UiAlRect.dft(), AlRect2.dft());
+    static unit() {
+        return new AlCam2(UiAlRect.unit(), AlRect2.unit());
     }
     displace_with_cursor_shift() {
         let world_shift = this.cursor_world_shift();

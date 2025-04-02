@@ -220,7 +220,7 @@ declare class UiAlRect {
     readonly width: number;
     readonly height: number;
     constructor(tl_vec: Vec2, width: number, height: number);
-    static dft(): UiAlRect;
+    static unit(): UiAlRect;
     copy(): UiAlRect;
     dim(): Dim2;
     center(): Vec2;
@@ -321,7 +321,7 @@ declare class AlCam2 {
     window: UiAlRect;
     rect: AlRect2;
     constructor(window: UiAlRect, rect: AlRect2);
-    static dft(): AlCam2;
+    static unit(): AlCam2;
     displace_with_cursor_shift(): void;
     is_cursor_over_window(): boolean;
     cursor_normal_pos(): Vec2;
@@ -1255,4 +1255,5 @@ declare class TexRenderer {
     draw(buffer: Float32Array): void;
 }
 
-export { AlCam2, type AlignItems, type BorderStyle, BrowserFile, Canvas, CssColor, CssResset, type Display, DisplayForest, type DisplayForestItem, Div, DragAndDropMng, DragListener, ElemState, ElemStatePool, FileType, type FlexDirection, type FlexWrap, FloatList, FloatListBuffer, Font, type GL, GeomRenderer, GlBuffer, GlBufferTarget, GlBufferUsage, GlCtx, GlProgram, GlShaderKind, GlTexture, GlTextureFormat, GlTextureInternalFormat, GlTextureTarget, GlUniform, HIState, Image, Input, InputState, InputStatePool, type JustifyContent, type KeyCode, KeyState, KeyboardState, MagFilter, MinFilter, MouseButton, MouseState, NodeFile, type NodeInterface, type ObjectFit, Par, type Position, PressHistory, Style, type StyleObj, TexRenderer, UiAlRect, type VertexPointer, VertexPointerKind, type WritingMode, canvas, div, get_webgl_context, image, input, par, to_style };
+export { AlCam2, BrowserFile, Canvas, CssColor, CssResset, DisplayForest, Div, DragAndDropMng, DragListener, ElemState, ElemStatePool, FileType, FloatList, FloatListBuffer, Font, GeomRenderer, GlBuffer, GlBufferTarget, GlBufferUsage, GlCtx, GlProgram, GlShaderKind, GlTexture, GlTextureFormat, GlTextureInternalFormat, GlTextureTarget, GlUniform, HIState, Image, Input, InputState, InputStatePool, KeyState, KeyboardState, MagFilter, MinFilter, MouseButton, MouseState, NodeFile, Par, PressHistory, Style, TexRenderer, UiAlRect, VertexPointerKind, canvas, div, get_webgl_context, image, input, par, to_style };
+export type { AlignItems, BorderStyle, Display, DisplayForestItem, FlexDirection, FlexWrap, GL, JustifyContent, KeyCode, NodeInterface, ObjectFit, Position, StyleObj, VertexPointer, WritingMode };
