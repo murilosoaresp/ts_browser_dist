@@ -318,17 +318,17 @@ declare class BrowserFile {
 }
 
 declare class AlCam2 {
-    window: UiAlRect;
+    canvas: UiAlRect;
     rect: AlRect2;
-    constructor(window: UiAlRect, rect: AlRect2);
+    constructor(canvas: UiAlRect, rect: AlRect2);
     static unit(): AlCam2;
     displace_with_cursor_shift(): void;
     is_cursor_over_window(): boolean;
     cursor_normal_pos(): Vec2;
     cursor_camera_pos(): Vec2;
-    cursor_world_pos(): Vec2;
-    cursor_world_shift(): Vec2;
-    window_shift_to_world_shift(window_shift: Vec2): Vec2;
+    cursor_scene_pos(): Vec2;
+    cursor_scene_shift(): Vec2;
+    window_shift_to_scene_shift(window_shift: Vec2): Vec2;
     zoom(value: number): void;
     zoom_by_scroll_amount(scroll: number): void;
 }

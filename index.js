@@ -1117,53 +1117,53 @@ class BrowserFile {
 }
 
 class AlCam2 {
-    constructor(window, rect) {
-        this.window = window;
+    constructor(canvas, rect) {
+        this.canvas = canvas;
         this.rect = rect;
     }
     static unit() {
         return new AlCam2(UiAlRect.unit(), AlRect2.unit());
     }
     displace_with_cursor_shift() {
-        let world_shift = this.cursor_world_shift();
+        let world_shift = this.cursor_scene_shift();
         let new_center = this.rect.center.sub(world_shift);
         this.rect = new AlRect2(new_center, this.rect.width, this.rect.height);
     }
     is_cursor_over_window() {
         let cursor_pos = HIState.mouse.pos();
-        return this.window.contains(cursor_pos);
+        return this.canvas.contains(cursor_pos);
     }
     cursor_normal_pos() {
         let raw_pos = HIState.mouse.pos();
-        let window_center = this.window.center();
+        let window_center = this.canvas.center();
         let window_pos = window_center.flip_y().delta_to(raw_pos.flip_y());
-        return window_pos.div(this.window.dim().mul_scalar(0.5).to_vec2());
+        return window_pos.div(this.canvas.dim().mul_scalar(0.5).to_vec2());
     }
     cursor_camera_pos() {
         return this
             .cursor_normal_pos()
             .mul(this.rect.dim().mul_scalar(0.5).to_vec2());
     }
-    cursor_world_pos() {
+    cursor_scene_pos() {
         return this.cursor_camera_pos().add(this.rect.center);
     }
-    cursor_world_shift() {
+    cursor_scene_shift() {
         let raw_shift = HIState.mouse.shift();
         return raw_shift
             .flip_y()
-            .div(this.window.dim().to_vec2())
+            .div(this.canvas.dim().to_vec2())
             .mul(this.rect.dim().to_vec2());
     }
-    window_shift_to_world_shift(window_shift) {
+    window_shift_to_scene_shift(window_shift) {
         let raw_shift = window_shift;
         return raw_shift
             .flip_y()
-            .div(this.window.dim().to_vec2())
+            .div(this.canvas.dim().to_vec2())
             .mul(this.rect.dim().to_vec2());
     }
     zoom(value) {
         let fixed_normal_vec = this.cursor_normal_pos();
-        let fixed_world_vec = this.cursor_world_pos();
+        let fixed_world_vec = this.cursor_scene_pos();
         let new_camera_dim = this.rect.dim().mul_scalar(1.0 / value); // A zoom of 2.0 menas that the camera is 2 times smaller, this is why we divide.
         let new_shift_from_fixed_world_vec = new_camera_dim
             .to_vec2()
